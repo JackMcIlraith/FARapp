@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../screeens/edit_animal.dart';
+import '../providers/animal_provider.dart';
 
 class ManagedPetItem extends StatelessWidget {
+  final String id;
   final String name;
   final String imageURL;
 
   ManagedPetItem(
+    this.id,
     this.name,
     this.imageURL,
   );
@@ -21,11 +27,16 @@ class ManagedPetItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(EditAnimalScreen.routeName, arguments: id);
+              },
               icon: Icon(Icons.edit),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<Animals>(context, listen: false).deleteAnimal(id);
+              },
               icon: Icon(Icons.delete),
             ),
           ],

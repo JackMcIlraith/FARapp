@@ -31,6 +31,7 @@ class Animals with ChangeNotifier {
         name: 'Doggo',
         description: 'Bark Bark yo',
         isAvailableToAdopt: true,
+        gender: AnimalGender.Female,
         imageUrl:
             'https://media.wired.com/photos/5a5547032b3a7778f5ca06cb/125:94/w_1593,h_1198,c_limit/Doggo-FeatureArt2-104685145.jpg',
         animalStatus: AnimalStatus.Homed),
@@ -162,6 +163,17 @@ class Animals with ChangeNotifier {
     );
     //add to end of list of
     _items.add(newAnimal);
+    notifyListeners();
+  }
+
+  void updateAnimal(String id, AnimalOBJ updateAnimal) {
+    final animalLocation = _items.indexWhere((animal) => animal.id == id);
+    _items[animalLocation] = updateAnimal;
+    notifyListeners();
+  }
+
+  void deleteAnimal(String id) {
+    _items.removeWhere((animal) => animal.id == id);
     notifyListeners();
   }
 }

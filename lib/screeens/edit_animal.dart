@@ -22,19 +22,98 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
   final _form = GlobalKey<FormState>();
   //basic animal to be updated.
   var _additAnimal = AnimalOBJ(
-      id: null,
-      name: null,
-      description: null,
-      imageUrl: null,
-      isAvailableToAdopt: null,
-      species: null,
-      gender: null,
-      animalStatus: null,
-      isFavorite: false);
+    id: null,
+    name: null,
+    description: null,
+    imageUrl: null,
+    isAvailableToAdopt: null,
+    species: null,
+    gender: null,
+    animalStatus: null,
+    isFavorite: false,
+  );
+  var _isInit = true;
+  var _initValues = {
+    'id': '',
+    'name': '',
+    'description': '',
+    'imageUrl': '',
+    'isAvailableToAdopt': '',
+    'species': '',
+    'gender': '',
+    'animalStatus': '',
+    'isFavorite': '',
+  };
 
   void initState() {
     _imageURLFocus.addListener(_updateImageURLPreview);
     super.initState();
+  }
+
+  AnimalGender initGender() {
+    if (_initValues['gender'] == 'AnimalGender.Female') {
+      return AnimalGender.Female;
+    } else if (_initValues['gender'] == 'AnimalGender.Male') {
+      return AnimalGender.Male;
+    } else
+      return null;
+  }
+
+  Species initSpeicies() {
+    if (_initValues['species'] == 'Species.Dog') {
+      return Species.Dog;
+    } else if (_initValues['species'] == 'Species.Cat') {
+      return Species.Cat;
+    } else if (_initValues['species'] == 'Species.Other') {
+      return Species.Other;
+    } else
+      return null;
+  }
+
+  AnimalStatus initAnimalState() {
+    if (_initValues['animalStatus'] == 'AnimalStatus.Foster_Needed') {
+      return AnimalStatus.Foster_Needed;
+    } else if (_initValues['animalStatus'] == 'AnimalStatus.Homed') {
+      return AnimalStatus.Homed;
+    } else if (_initValues['animalStatus'] == 'AnimalStatus.Fostered') {
+      return AnimalStatus.Fostered;
+    } else if (_initValues['animalStatus'] == 'AnimalStatus.PickUp') {
+      return AnimalStatus.PickUp;
+    } else
+      return null;
+  }
+
+  bool initIsAdoptable() {
+    if (_initValues['isAvailableToAdopt'] == 'true') {
+      return true;
+    } else if (_initValues['isAvailableToAdopt'] == 'false') {
+      return false;
+    } else
+      return null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final animalID = ModalRoute.of(context).settings.arguments as String;
+      if (animalID != null) {
+        _additAnimal =
+            Provider.of<Animals>(context, listen: false).findByID(animalID);
+        _initValues = {
+          'id': _additAnimal.id,
+          'name': _additAnimal.name,
+          'description': _additAnimal.description,
+          'isAvailableToAdopt': _additAnimal.isAvailableToAdopt.toString(),
+          'species': _additAnimal.species.toString(),
+          'gender': _additAnimal.gender.toString(),
+          'animalStatus': _additAnimal.animalStatus.toString(),
+          'isFavorite': _additAnimal.isFavorite.toString(),
+        };
+        _imageURLController.text = _additAnimal.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies;
   }
 
   void _updateImageURLPreview() {
@@ -60,8 +139,13 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
       return;
     }
     _form.currentState.save();
-    final animalsList = Provider.of<Animals>(context, listen: false);
-    animalsList.addAnimals(_additAnimal);
+    if (_additAnimal.id != null) {
+      final animalsList = Provider.of<Animals>(context, listen: false);
+      animalsList.updateAnimal(_additAnimal.id, _additAnimal);
+    } else {
+      final animalsList = Provider.of<Animals>(context, listen: false);
+      animalsList.addAnimals(_additAnimal);
+    }
     Navigator.of(context).pop();
   }
 
@@ -85,6 +169,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  initialValue: _initValues['name'],
                   decoration: InputDecoration(
                     labelText: 'Aniaml Name',
                   ),
@@ -112,6 +197,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                   },
                 ),
                 TextFormField(
+                  initialValue: _initValues['description'],
                   decoration: InputDecoration(labelText: 'Aniaml Description'),
                   maxLines: 4,
                   keyboardType: TextInputType.multiline,
@@ -147,7 +233,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                         right: 8,
                       ),
                       child: DropdownButtonFormField<AnimalGender>(
-                        value: _animalGender,
+                        value: initGender(),
                         items: [AnimalGender.Female, AnimalGender.Male]
                             .map((label) => DropdownMenuItem(
                                   child: Text(label.toString().split('.').last),
@@ -183,7 +269,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                         right: 8,
                       ),
                       child: DropdownButtonFormField<Species>(
-                        value: _animalSpecies,
+                        value: initSpeicies(),
                         items: [Species.Cat, Species.Dog, Species.Other]
                             .map((label) => DropdownMenuItem(
                                   child: Text(label.toString().split('.').last),
@@ -230,7 +316,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                         right: 8,
                       ),
                       child: DropdownButtonFormField<AnimalStatus>(
-                        value: _animalState,
+                        value: initAnimalState(),
                         items: [
                           AnimalStatus.Foster_Needed,
                           AnimalStatus.Fostered,
@@ -271,7 +357,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                         right: 8,
                       ),
                       child: DropdownButtonFormField<bool>(
-                        value: _isAvalibleToAdopt,
+                        value: initIsAdoptable(),
                         items: [true, false]
                             .map((label) => DropdownMenuItem(
                                   child: Text(label.toString()),

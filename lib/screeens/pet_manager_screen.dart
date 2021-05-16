@@ -32,6 +32,7 @@ class ManagePets extends StatelessWidget {
           itemBuilder: (_, i) => Column(
             children: [
               ManagedPetItem(
+                animalData.items[i].id,
                 animalData.items[i].name,
                 animalData.items[i].imageUrl,
               ),
