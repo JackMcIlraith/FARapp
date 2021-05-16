@@ -5,6 +5,7 @@ import '../providers/animal_provider.dart';
 import '../widgets/managed_pet_item.dart';
 import '../providers/foster.dart';
 import '../widgets/foster_item.dart';
+import './edit_animal.dart';
 
 class ManagePets extends StatelessWidget {
   static const routeName = '/manage';
@@ -17,7 +18,9 @@ class ManagePets extends StatelessWidget {
         title: Text('Current animals'),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditAnimalScreen.routeName);
+            },
             icon: Icon(Icons.add),
           )
         ],
@@ -29,7 +32,7 @@ class ManagePets extends StatelessWidget {
           itemBuilder: (_, i) => Column(
             children: [
               ManagedPetItem(
-                animalData.items[i].title,
+                animalData.items[i].name,
                 animalData.items[i].imageUrl,
               ),
               Divider(),

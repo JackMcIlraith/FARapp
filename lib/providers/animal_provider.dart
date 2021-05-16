@@ -7,108 +7,97 @@ class Animals with ChangeNotifier {
   List<AnimalOBJ> _items = [
     AnimalOBJ(
       id: 'p1',
-      title: 'Taco Cat',
+      name: 'Taco Cat',
       description:
           '""At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et mo"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."lestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."',
-      price: 29.99,
       imageUrl:
           'https://shapegrams.com/wp-content/uploads/2020/03/Tacocat-Featured-Image-1600x1600.png',
-      animalStatus: animal_status.FHneeded,
+      animalStatus: AnimalStatus.Foster_Needed,
       isAvailableToAdopt: true,
       gender: AnimalGender.Male,
       species: Species.Cat,
     ),
     AnimalOBJ(
       id: 'p2',
-      title: 'Picachu',
+      name: 'Picachu',
       description: 'Pokemon',
-      price: 59.99,
       imageUrl:
           'https://i.pinimg.com/originals/f5/1d/08/f51d08be05919290355ac004cdd5c2d6.png',
-      animalStatus: animal_status.Fostered,
+      animalStatus: AnimalStatus.Fostered,
       isAvailableToAdopt: true,
     ),
     AnimalOBJ(
         id: 'p3',
-        title: 'Doggo',
+        name: 'Doggo',
         description: 'Bark Bark yo',
-        price: 19.99,
         isAvailableToAdopt: true,
         imageUrl:
             'https://media.wired.com/photos/5a5547032b3a7778f5ca06cb/125:94/w_1593,h_1198,c_limit/Doggo-FeatureArt2-104685145.jpg',
-        animalStatus: animal_status.Homed),
+        animalStatus: AnimalStatus.Homed),
     AnimalOBJ(
       id: 'p4',
-      title: 'A Cat',
+      name: 'A Cat',
       description: 'pss pss pss',
-      price: 49.99,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/VAN_CAT.png/600px-VAN_CAT.png',
       isAvailableToAdopt: false,
-      animalStatus: animal_status.Homed,
+      animalStatus: AnimalStatus.Homed,
     ),
     AnimalOBJ(
         id: 'p5',
-        title: 'Kitten',
+        name: 'Kitten',
         description: 'Young kitten',
-        price: 19.99,
         isAvailableToAdopt: true,
         imageUrl:
             'https://www.askideas.com/media/24/Little-Siberian-Kitten-In-Hand.jpg',
-        animalStatus: animal_status.Fostered),
+        animalStatus: AnimalStatus.Fostered),
     AnimalOBJ(
         id: 'p6',
-        title: 'Angry Fluff',
+        name: 'Angry Fluff',
         description: 'This cat is fluffy and not very friendly',
-        price: 19.99,
         isAvailableToAdopt: false,
         imageUrl:
             'https://viralcats.net/blog/wp-content/uploads/2017/10/Garfi-02-Viral-Cats.jpg',
-        animalStatus: animal_status.FHneeded),
+        animalStatus: AnimalStatus.Foster_Needed),
     AnimalOBJ(
         id: 'p7',
-        title: 'Grumpy Cat',
+        name: 'Grumpy Cat',
         description: 'The one and only grumpy cat',
-        price: 19.99,
         isAvailableToAdopt: false,
         imageUrl:
             'https://static01.nyt.com/images/2019/05/19/world/17grumpycat-1/17grumpycat-1-videoSixteenByNine3000.jpg',
-        animalStatus: animal_status.Homed),
+        animalStatus: AnimalStatus.Homed),
     AnimalOBJ(
         id: 'p8',
-        title: 'Garfield',
+        name: 'Garfield',
         description: 'I hate Mondays',
-        price: 19.99,
         isAvailableToAdopt: false,
         imageUrl: 'https://cdn.hipwallpaper.com/i/17/41/skHxbR.jpg',
-        animalStatus: animal_status.Homed),
+        animalStatus: AnimalStatus.Homed),
     AnimalOBJ(
         id: 'p9',
-        title: 'Scooby Doo',
+        name: 'Scooby Doo',
         description: 'Scooby Doo where are you?',
-        price: 19.99,
         isAvailableToAdopt: true,
         imageUrl:
             'https://webstockreview.net/images/scooby-doo-clipart-file-3.jpg',
-        animalStatus: animal_status.PickUp),
+        animalStatus: AnimalStatus.PickUp),
     AnimalOBJ(
         id: 'p10',
-        title: 'Dalmations',
+        name: 'Dalmations',
         description: '2 Dalmation pups',
-        price: 19.99,
         isAvailableToAdopt: true,
         imageUrl:
             'https://3.bp.blogspot.com/-WIupHDhU9o0/T9GIWKkA5TI/AAAAAAAAB54/8reA16sMII0/s1600/Dalmatian+images.jpg',
-        animalStatus: animal_status.Fostered),
+        animalStatus: AnimalStatus.Fostered),
     AnimalOBJ(
         id: 'p11',
-        title: 'Chocolate Labrador',
+        name: 'Chocolate Labrador',
         description: 'Chocolate Labrodor',
-        price: 19.99,
         isAvailableToAdopt: true,
         imageUrl:
             'http://kschulzphotography.com/wp-content/uploads/2017/04/0002-2.jpg',
-        animalStatus: animal_status.FHneeded),
+        animalStatus: AnimalStatus.Foster_Needed),
   ];
   var _showFavoritesOnly = false;
 
@@ -129,7 +118,7 @@ class Animals with ChangeNotifier {
 
   List<AnimalOBJ> get fosterHomeNeededAnimals {
     return _items
-        .where((ani) => ani.animalStatus == animal_status.FHneeded)
+        .where((ani) => ani.animalStatus == AnimalStatus.Foster_Needed)
         .toList();
   }
 
@@ -139,13 +128,13 @@ class Animals with ChangeNotifier {
 
   List<AnimalOBJ> get inFosterHomeAnimals {
     return _items
-        .where((ani) => ani.animalStatus == animal_status.Fostered)
+        .where((ani) => ani.animalStatus == AnimalStatus.Fostered)
         .toList();
   }
 
   List<AnimalOBJ> get awaitingPickUpHomeAnimals {
     return _items
-        .where((ani) => ani.animalStatus == animal_status.PickUp)
+        .where((ani) => ani.animalStatus == AnimalStatus.PickUp)
         .toList();
   }
 
@@ -159,8 +148,20 @@ class Animals with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  addProduct() {
-    //_items.add(value);
+  void addAnimals(AnimalOBJ animal) {
+    final newAnimal = AnimalOBJ(
+      id: DateTime.now().toString(),
+      name: animal.name,
+      description: animal.description,
+      imageUrl: animal.imageUrl,
+      isFavorite: animal.isFavorite,
+      animalStatus: animal.animalStatus,
+      isAvailableToAdopt: animal.isAvailableToAdopt,
+      gender: animal.gender,
+      species: animal.species,
+    );
+    //add to end of list of
+    _items.add(newAnimal);
     notifyListeners();
   }
 }

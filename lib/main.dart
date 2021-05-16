@@ -9,6 +9,7 @@ import 'screeens/foster_list.dart';
 import 'screeens/vtr_screen.dart';
 import 'screeens/pet_manager_screen.dart';
 import 'screeens/testscreen.dart';
+import 'screeens/edit_animal.dart';
 
 import './providers/animal_provider.dart';
 import './providers/adopt.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           //VTRScreen.routeName: (ctx) => VTRScreen(),
           ManagePets.routeName: (ctx) => ManagePets(),
           TestScreen.routeName: (ctx) => TestScreen(),
+          EditAnimalScreen.routeName: (ctx) => EditAnimalScreen(),
         },
       ),
     );

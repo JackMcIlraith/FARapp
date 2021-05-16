@@ -11,7 +11,7 @@ import '../screeens/vtr_screen.dart';
 // ignore: must_be_immutable
 class AplicationPrereq extends StatelessWidget {
   bool isAdoptable;
-  animal_status animalStatus;
+  AnimalStatus animalStatus;
   String id;
   String name;
   String imageUrl;
@@ -27,14 +27,14 @@ class AplicationPrereq extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isAdoptable &&
-        (animalStatus == animal_status.FHneeded ||
-            animalStatus == animal_status.PickUp)) {
+        (animalStatus == AnimalStatus.Foster_Needed ||
+            animalStatus == AnimalStatus.PickUp)) {
       return F_and_A(context);
     } else if (!isAdoptable &&
-        (animalStatus == animal_status.FHneeded ||
-            animalStatus == animal_status.PickUp)) {
+        (animalStatus == AnimalStatus.Foster_Needed ||
+            animalStatus == AnimalStatus.PickUp)) {
       return F_Only(context);
-    } else if (isAdoptable && (animalStatus == animal_status.Fostered)) {
+    } else if (isAdoptable && (animalStatus == AnimalStatus.Fostered)) {
       return A_Only(context);
     } else
       return null;

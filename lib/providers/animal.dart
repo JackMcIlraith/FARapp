@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../models/vtr.dart';
 
-enum animal_status {
-  FHneeded,
+enum AnimalStatus {
+  Foster_Needed,
   Homed,
   Fostered,
   PickUp,
@@ -22,25 +22,23 @@ enum Species {
 
 class AnimalOBJ with ChangeNotifier {
   final String id;
-  final String title;
+  final String name;
   final String description;
-  final double price;
   final String imageUrl;
   bool isFavorite;
-  animal_status animalStatus;
+  AnimalStatus animalStatus;
   bool isAvailableToAdopt;
   AnimalGender gender;
   Species species;
-  VTR treatementRecord = new VTR();
+  //VTR treatementRecord = new VTR();
 
   AnimalOBJ(
-      {@required this.id,
-      @required this.title,
-      @required this.description,
-      @required this.price,
-      @required this.imageUrl,
+      {this.id,
+      this.name,
+      this.description,
+      this.imageUrl,
       this.isFavorite = false,
-      @required this.isAvailableToAdopt,
+      this.isAvailableToAdopt,
       this.animalStatus,
       this.gender,
       this.species});
@@ -55,24 +53,24 @@ class AnimalOBJ with ChangeNotifier {
     notifyListeners();
   }
 
-  IconData getIconFromName(animal_status aStatus) {
+  IconData getIconFromName(AnimalStatus aStatus) {
     switch (animalStatus) {
-      case animal_status.Homed:
+      case AnimalStatus.Homed:
         {
           return Icons.house;
         }
         break;
-      case animal_status.Fostered:
+      case AnimalStatus.Fostered:
         {
           return Icons.how_to_reg;
         }
         break;
-      case animal_status.FHneeded:
+      case AnimalStatus.Foster_Needed:
         {
           return Icons.feedback;
         }
         break;
-      case animal_status.PickUp:
+      case AnimalStatus.PickUp:
         {
           return Icons.emoji_transportation;
         }

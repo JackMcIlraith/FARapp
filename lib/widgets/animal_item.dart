@@ -50,7 +50,7 @@ class AnimalItem extends StatelessWidget {
           ),
           backgroundColor: Colors.purple,
           title: Text(
-            animal.title,
+            animal.name,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white),
           ),

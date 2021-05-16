@@ -35,7 +35,7 @@ class AnimalDetailScreen extends StatelessWidget {
               isAdoptable: loadedAnimal.isAvailableToAdopt,
               animalStatus: loadedAnimal.animalStatus,
               id: loadedAnimal.id,
-              name: loadedAnimal.title,
+              name: loadedAnimal.name,
               imageUrl: loadedAnimal.imageUrl)
           .build(context),
       // endDrawer: Drawer(
@@ -81,7 +81,7 @@ class AnimalDetailScreen extends StatelessWidget {
       // ),
       appBar: AppBar(
         leading: BackButton(),
-        title: Text(loadedAnimal.title),
+        title: Text(loadedAnimal.name),
         // actions: <Widget>[
         //   Builder(
         //     //Adopt
@@ -147,7 +147,7 @@ class AnimalDetailScreen extends StatelessWidget {
                         ),
                       ),
                       leading: Text(
-                        loadedAnimal.title,
+                        loadedAnimal.name,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 24,
@@ -222,16 +222,16 @@ class AnimalDetailScreen extends StatelessWidget {
     );
   }
 
-  String StatusKeyReturn(animal_status animalStatus) {
-    if (animalStatus == animal_status.FHneeded) {
+  String StatusKeyReturn(AnimalStatus animalStatus) {
+    if (animalStatus == AnimalStatus.Foster_Needed) {
       return 'Foster Needed';
-    } else if (animalStatus == animal_status.Fostered) {
+    } else if (animalStatus == AnimalStatus.Fostered) {
       return 'Fostered';
-    } else if (animalStatus == animal_status.PickUp) {
+    } else if (animalStatus == AnimalStatus.PickUp) {
       return 'Awaiting Pickup';
-    } else if (animalStatus == animal_status.PickUp) {
+    } else if (animalStatus == AnimalStatus.PickUp) {
       return 'Awaiting Pickup';
-    } else if (animalStatus == animal_status.Homed) {
+    } else if (animalStatus == AnimalStatus.Homed) {
       return 'Already Homed';
     }
   }
