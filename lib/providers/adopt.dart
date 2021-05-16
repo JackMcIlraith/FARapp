@@ -48,4 +48,9 @@ class Adopt with ChangeNotifier {
       );
     }
   }
+
+  void removeApplication(String id) {
+    _animals.remove(id);
+    notifyListeners();
+  }
 }

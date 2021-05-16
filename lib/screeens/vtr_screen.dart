@@ -1,30 +1,32 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//reveiw 210
 
-import '../models/vtr.dart';
-import '../widgets/vtr_item.dart';
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
 
-class VTRScreen extends StatelessWidget {
-  static const routeName = '/vtr';
-  @override
-  Widget build(BuildContext context) {
-    final vtr = Provider.of<VTR>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Current Vet Treatement Record'),
-      ),
-      body: Column(children: <Widget>[
-        Expanded(
-          child: ListView.builder(
-            itemCount: vtr.numberOfRecords,
-            itemBuilder: (ctx, i) => VTRItem(
-              vtr.vetRecord.values.toList()[i].id,
-              vtr.vetRecord.values.toList()[i].dateOfVisit,
-              vtr.vetRecord.values.toList()[i].description,
-            ),
-          ),
-        )
-      ]),
-    );
-  }
-}
+// import '../models/vtr.dart';
+// import '../widgets/vtr_item.dart';
+
+// class VTRScreen extends StatelessWidget {
+//   static const routeName = '/vtr';
+//   @override
+//   Widget build(BuildContext context) {
+//     final vtr = Provider.of<VTR>(context);
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Current Vet Treatement Record'),
+//       ),
+//       body: Column(children: <Widget>[
+//         Expanded(
+//           child: ListView.builder(
+//             itemCount: vtr.numberOfRecords,
+//             //itemBuilder: (ctx, i) => VTRItem(
+//             //  vtr.vetRecord.values.toList()[i].id,
+//             //  vtr.vetRecord.values.toList()[i].dateOfVisit,
+//             //  vtr.vetRecord.values.toList()[i].description,
+//             ),
+//           ),
+//         )
+//       ]),
+//     );
+//   }
+// }

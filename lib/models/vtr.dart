@@ -29,8 +29,11 @@ class VTR with ChangeNotifier {
     return _vetRecord.length;
   }
 
-  void addToInterested(
-      String animalID, String dateOfVisit, String description) {
+  void addToRecord(
+    String animalID,
+    String dateOfVisit,
+    String description,
+  ) {
     _vetRecord.putIfAbsent(
       DateTime.now().toString(),
       () => Record(

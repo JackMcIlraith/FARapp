@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/vtr.dart';
 import 'package:provider/provider.dart';
+import 'package:flushbar/flushbar.dart';
 
 import '../providers/animal.dart';
 import '../providers/adopt.dart';
@@ -82,6 +83,10 @@ class AplicationPrereq extends StatelessWidget {
                 name,
                 imageUrl,
               );
+              Flushbar(
+                message: "Adoption application submitted",
+                duration: Duration(seconds: 3),
+              )..show(context);
             },
           ),
           ListTile(
@@ -92,6 +97,10 @@ class AplicationPrereq extends StatelessWidget {
                 name,
                 imageUrl,
               );
+              Flushbar(
+                message: "Foster application submitted",
+                duration: Duration(seconds: 3),
+              )..show(context);
             },
           ),
           // ListTile(
@@ -144,6 +153,10 @@ class AplicationPrereq extends StatelessWidget {
                 name,
                 imageUrl,
               );
+              Flushbar(
+                message: "Foster application submitted",
+                duration: Duration(seconds: 3),
+              )..show(context);
             },
           ),
         ],
@@ -191,6 +204,10 @@ class AplicationPrereq extends StatelessWidget {
                 name,
                 imageUrl,
               );
+              Flushbar(
+                message: "Adoption application submitted",
+                duration: Duration(seconds: 3),
+              )..show(context);
             },
           ),
         ],

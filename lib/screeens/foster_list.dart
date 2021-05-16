@@ -19,6 +19,7 @@ class FosterScreen extends StatelessWidget {
             itemCount: foster.numberOfApplications,
             itemBuilder: (ctx, i) => FosterItem(
               foster.animals.values.toList()[i].id,
+              foster.animals.keys.toList()[i],
               foster.animals.values.toList()[i].name,
               foster.animals.values.toList()[i].imageURL,
               foster.animals.values.toList()[i].fosteringStatus,

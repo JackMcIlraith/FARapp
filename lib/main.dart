@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           AnimalDetailScreen.routeName: (ctx) => AnimalDetailScreen(),
           AdoptScreen.routeName: (ctx) => AdoptScreen(),
           FosterScreen.routeName: (ctx) => FosterScreen(),
-          VTRScreen.routeName: (ctx) => VTRScreen(),
+          //VTRScreen.routeName: (ctx) => VTRScreen(),
         },
       ),
     );
