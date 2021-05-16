@@ -7,6 +7,8 @@ import 'screeens/animal_detail_screen.dart';
 import 'screeens/adopt_list.dart';
 import 'screeens/foster_list.dart';
 import 'screeens/vtr_screen.dart';
+import 'screeens/pet_manager_screen.dart';
+import 'screeens/testscreen.dart';
 
 import './providers/animal_provider.dart';
 import './providers/adopt.dart';
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
           AdoptScreen.routeName: (ctx) => AdoptScreen(),
           FosterScreen.routeName: (ctx) => FosterScreen(),
           //VTRScreen.routeName: (ctx) => VTRScreen(),
+          ManagePets.routeName: (ctx) => ManagePets(),
+          TestScreen.routeName: (ctx) => TestScreen(),
         },
       ),
     );

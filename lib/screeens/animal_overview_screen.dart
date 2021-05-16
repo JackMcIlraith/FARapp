@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/screeens/adopt_list.dart';
+import 'package:flutter_complete_guide/screeens/pet_manager_screen.dart';
+import 'package:flutter_complete_guide/screeens/testscreen.dart';
 import 'package:flutter_complete_guide/screeens/vtr_screen.dart';
 
 import '../widgets/animals_grid.dart';
 import '../screeens/adopt_list.dart';
 import '../screeens/foster_list.dart';
+import '../screeens/pet_manager_screen.dart';
 
 enum FilterOptions { All, Favourites, Foster, Adopt, InFoster, PickUp }
 
@@ -85,7 +88,7 @@ class _AnimalsOverviewScreenState extends State<AnimalsOverviewScreen> {
               height: 50.0,
               child: DrawerHeader(
                   child: Text(
-                    'Current Applications:',
+                    'Menu:',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -106,6 +109,20 @@ class _AnimalsOverviewScreenState extends State<AnimalsOverviewScreen> {
               title: Text('Foster applications'),
               onTap: () {
                 Navigator.of(context).pushNamed(FosterScreen.routeName);
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Manage Animals'),
+              onTap: () {
+                Navigator.of(context).pushNamed(ManagePets.routeName);
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text('TestScreen'),
+              onTap: () {
+                Navigator.of(context).pushNamed(TestScreen.routeName);
               },
             ),
           ],
