@@ -44,6 +44,7 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
     'animalStatus': '',
     'isFavorite': '',
   };
+  var isLoading = false;
 
   void initState() {
     _imageURLFocus.addListener(_updateImageURLPreview);
@@ -139,14 +140,41 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
       return;
     }
     _form.currentState.save();
+    setState(() {
+      isLoading = true;
+    });
     if (_additAnimal.id != null) {
-      final animalsList = Provider.of<Animals>(context, listen: false);
-      animalsList.updateAnimal(_additAnimal.id, _additAnimal);
+      Provider.of<Animals>(context, listen: false)
+          .updateAnimal(_additAnimal.id, _additAnimal);
+      setState(() {
+        isLoading = false;
+        Navigator.of(context).pop();
+      });
     } else {
-      final animalsList = Provider.of<Animals>(context, listen: false);
-      animalsList.addAnimals(_additAnimal);
+      Provider.of<Animals>(context, listen: false)
+          .addAnimals(_additAnimal)
+          .catchError((error) {
+        return showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+              title: Text('Error occured'),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Fine.....'))
+              ],
+              content: Text(
+                  'Monkeys have been dispatched, they are not avalible for adoption')),
+        );
+      }).then((_) {
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.of(context).pop();
+      });
     }
-    Navigator.of(context).pop();
   }
 
   @override
@@ -161,130 +189,55 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Form(
-          key: _form,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  initialValue: _initValues['name'],
-                  decoration: InputDecoration(
-                    labelText: 'Aniaml Name',
-                  ),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_descriptionFocus);
-                  },
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'A name is required';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _additAnimal = AnimalOBJ(
-                        id: _additAnimal.id,
-                        name: value,
-                        description: _additAnimal.description,
-                        imageUrl: _additAnimal.imageUrl,
-                        isAvailableToAdopt: _additAnimal.isAvailableToAdopt,
-                        species: _additAnimal.species,
-                        gender: _additAnimal.gender,
-                        animalStatus: _additAnimal.animalStatus,
-                        isFavorite: _additAnimal.isFavorite);
-                  },
-                ),
-                TextFormField(
-                  initialValue: _initValues['description'],
-                  decoration: InputDecoration(labelText: 'Aniaml Description'),
-                  maxLines: 4,
-                  keyboardType: TextInputType.multiline,
-                  focusNode: _descriptionFocus,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Need to have some details';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _additAnimal = AnimalOBJ(
-                      id: _additAnimal.id,
-                      name: _additAnimal.name,
-                      description: value,
-                      imageUrl: _additAnimal.imageUrl,
-                      isAvailableToAdopt: _additAnimal.isAvailableToAdopt,
-                      species: _additAnimal.species,
-                      gender: _additAnimal.gender,
-                      animalStatus: _additAnimal.animalStatus,
-                      isFavorite: _additAnimal.isFavorite,
-                    );
-                  },
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: 160,
-                      height: 70,
-                      margin: EdgeInsets.only(
-                        top: 5,
-                        right: 8,
-                      ),
-                      child: DropdownButtonFormField<AnimalGender>(
-                        value: initGender(),
-                        items: [AnimalGender.Female, AnimalGender.Male]
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(label.toString().split('.').last),
-                                  value: label,
-                                ))
-                            .toList(),
-                        hint: Text('Animal Gender'),
-                        onChanged: (value) {
-                          setState(() {
-                            _animalGender = value;
-                          });
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Form(
+                key: _form,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        initialValue: _initValues['name'],
+                        decoration: InputDecoration(
+                          labelText: 'Animal Name',
+                        ),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocus);
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'A name is required';
+                          }
+                          return null;
                         },
                         onSaved: (value) {
                           _additAnimal = AnimalOBJ(
-                            id: _additAnimal.id,
-                            name: _additAnimal.name,
-                            description: _additAnimal.description,
-                            imageUrl: _additAnimal.imageUrl,
-                            isAvailableToAdopt: _additAnimal.isAvailableToAdopt,
-                            species: _additAnimal.species,
-                            gender: value,
-                            animalStatus: _additAnimal.animalStatus,
-                            isFavorite: _additAnimal.isFavorite,
-                          );
+                              id: _additAnimal.id,
+                              name: value,
+                              description: _additAnimal.description,
+                              imageUrl: _additAnimal.imageUrl,
+                              isAvailableToAdopt:
+                                  _additAnimal.isAvailableToAdopt,
+                              species: _additAnimal.species,
+                              gender: _additAnimal.gender,
+                              animalStatus: _additAnimal.animalStatus,
+                              isFavorite: _additAnimal.isFavorite);
                         },
                       ),
-                    ),
-                    Container(
-                      width: 160,
-                      height: 70,
-                      margin: EdgeInsets.only(
-                        top: 5,
-                        right: 8,
-                      ),
-                      child: DropdownButtonFormField<Species>(
-                        value: initSpeicies(),
-                        items: [Species.Cat, Species.Dog, Species.Other]
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(label.toString().split('.').last),
-                                  value: label,
-                                ))
-                            .toList(),
-                        hint: Text('Animal Species'),
-                        onChanged: (value) {
-                          setState(() {
-                            _animalSpecies = value;
-                          });
-                        },
+                      TextFormField(
+                        initialValue: _initValues['description'],
+                        decoration:
+                            InputDecoration(labelText: 'Animal Description'),
+                        maxLines: 4,
+                        keyboardType: TextInputType.multiline,
+                        focusNode: _descriptionFocus,
                         validator: (value) {
-                          if (value == null) {
-                            return 'Spieces is required';
+                          if (value.isEmpty) {
+                            return 'Need to have some details';
                           }
                           return null;
                         },
@@ -292,93 +245,9 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                           _additAnimal = AnimalOBJ(
                             id: _additAnimal.id,
                             name: _additAnimal.name,
-                            description: _additAnimal.description,
+                            description: value,
                             imageUrl: _additAnimal.imageUrl,
                             isAvailableToAdopt: _additAnimal.isAvailableToAdopt,
-                            species: value,
-                            gender: _additAnimal.gender,
-                            animalStatus: _additAnimal.animalStatus,
-                            isFavorite: _additAnimal.isFavorite,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: 160,
-                      height: 70,
-                      margin: EdgeInsets.only(
-                        top: 5,
-                        right: 8,
-                      ),
-                      child: DropdownButtonFormField<AnimalStatus>(
-                        value: initAnimalState(),
-                        items: [
-                          AnimalStatus.Foster_Needed,
-                          AnimalStatus.Fostered,
-                          AnimalStatus.Homed,
-                          AnimalStatus.PickUp
-                        ]
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(label.toString().split('.').last),
-                                  value: label,
-                                ))
-                            .toList(),
-                        hint: Text('Animal Avalibility'),
-                        onChanged: (value) {
-                          setState(() {
-                            _animalState = value;
-                          });
-                        },
-                        onSaved: (value) {
-                          _additAnimal = AnimalOBJ(
-                            id: _additAnimal.id,
-                            name: _additAnimal.name,
-                            description: _additAnimal.description,
-                            imageUrl: _additAnimal.imageUrl,
-                            isAvailableToAdopt: _additAnimal.isAvailableToAdopt,
-                            species: _additAnimal.species,
-                            gender: _additAnimal.gender,
-                            animalStatus: value,
-                            isFavorite: _additAnimal.isFavorite,
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 160,
-                      height: 70,
-                      margin: EdgeInsets.only(
-                        top: 5,
-                        right: 8,
-                      ),
-                      child: DropdownButtonFormField<bool>(
-                        value: initIsAdoptable(),
-                        items: [true, false]
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(label.toString()),
-                                  value: label,
-                                ))
-                            .toList(),
-                        hint: Text('Avalible to Adopt'),
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              _isAvalibleToAdopt = value;
-                            },
-                          );
-                        },
-                        onSaved: (value) {
-                          _additAnimal = AnimalOBJ(
-                            id: _additAnimal.id,
-                            name: _additAnimal.name,
-                            description: _additAnimal.description,
-                            imageUrl: _additAnimal.imageUrl,
-                            isAvailableToAdopt: value,
                             species: _additAnimal.species,
                             gender: _additAnimal.gender,
                             animalStatus: _additAnimal.animalStatus,
@@ -386,66 +255,238 @@ class _EditAnimalScreenState extends State<EditAnimalScreen> {
                           );
                         },
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                      height: 100,
-                      margin: EdgeInsets.only(
-                        top: 5,
-                        right: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      child: _imageURLController.text.isEmpty
-                          ? Text('Enter a URL')
-                          : FittedBox(
-                              child: Image.network(_imageURLController.text),
-                              fit: BoxFit.cover,
-                              clipBehavior: Clip.hardEdge,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 160,
+                            height: 70,
+                            margin: EdgeInsets.only(
+                              top: 5,
+                              right: 8,
                             ),
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        decoration:
-                            InputDecoration(labelText: 'Aniaml Picture URL'),
-                        keyboardType: TextInputType.url,
-                        textInputAction: TextInputAction.done,
-                        controller: _imageURLController,
-                        onEditingComplete: () {
-                          setState(() {});
-                        },
-                        onSaved: (value) {
-                          _additAnimal = AnimalOBJ(
-                            id: _additAnimal.id,
-                            name: _additAnimal.name,
-                            description: _additAnimal.description,
-                            imageUrl: value,
-                            isAvailableToAdopt: _additAnimal.isAvailableToAdopt,
-                            species: _additAnimal.species,
-                            gender: _additAnimal.gender,
-                            animalStatus: _additAnimal.animalStatus,
-                            isFavorite: _additAnimal.isFavorite,
-                          );
-                        },
-                        focusNode: _imageURLFocus,
+                            child: DropdownButtonFormField<AnimalGender>(
+                              value: initGender(),
+                              items: [AnimalGender.Female, AnimalGender.Male]
+                                  .map((label) => DropdownMenuItem(
+                                        child: Text(
+                                            label.toString().split('.').last),
+                                        value: label,
+                                      ))
+                                  .toList(),
+                              hint: Text('Animal Gender'),
+                              onChanged: (value) {
+                                setState(() {
+                                  _animalGender = value;
+                                });
+                              },
+                              onSaved: (value) {
+                                _additAnimal = AnimalOBJ(
+                                  id: _additAnimal.id,
+                                  name: _additAnimal.name,
+                                  description: _additAnimal.description,
+                                  imageUrl: _additAnimal.imageUrl,
+                                  isAvailableToAdopt:
+                                      _additAnimal.isAvailableToAdopt,
+                                  species: _additAnimal.species,
+                                  gender: value,
+                                  animalStatus: _additAnimal.animalStatus,
+                                  isFavorite: _additAnimal.isFavorite,
+                                );
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 160,
+                            height: 70,
+                            margin: EdgeInsets.only(
+                              top: 5,
+                              right: 8,
+                            ),
+                            child: DropdownButtonFormField<Species>(
+                              value: initSpeicies(),
+                              items: [Species.Cat, Species.Dog, Species.Other]
+                                  .map((label) => DropdownMenuItem(
+                                        child: Text(
+                                            label.toString().split('.').last),
+                                        value: label,
+                                      ))
+                                  .toList(),
+                              hint: Text('Animal Species'),
+                              onChanged: (value) {
+                                setState(() {
+                                  _animalSpecies = value;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Spieces is required';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _additAnimal = AnimalOBJ(
+                                  id: _additAnimal.id,
+                                  name: _additAnimal.name,
+                                  description: _additAnimal.description,
+                                  imageUrl: _additAnimal.imageUrl,
+                                  isAvailableToAdopt:
+                                      _additAnimal.isAvailableToAdopt,
+                                  species: value,
+                                  gender: _additAnimal.gender,
+                                  animalStatus: _additAnimal.animalStatus,
+                                  isFavorite: _additAnimal.isFavorite,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 160,
+                            height: 70,
+                            margin: EdgeInsets.only(
+                              top: 5,
+                              right: 8,
+                            ),
+                            child: DropdownButtonFormField<AnimalStatus>(
+                              value: initAnimalState(),
+                              items: [
+                                AnimalStatus.Foster_Needed,
+                                AnimalStatus.Fostered,
+                                AnimalStatus.Homed,
+                                AnimalStatus.PickUp
+                              ]
+                                  .map((label) => DropdownMenuItem(
+                                        child: Text(
+                                            label.toString().split('.').last),
+                                        value: label,
+                                      ))
+                                  .toList(),
+                              hint: Text('Animal Avalibility'),
+                              onChanged: (value) {
+                                setState(() {
+                                  _animalState = value;
+                                });
+                              },
+                              onSaved: (value) {
+                                _additAnimal = AnimalOBJ(
+                                  id: _additAnimal.id,
+                                  name: _additAnimal.name,
+                                  description: _additAnimal.description,
+                                  imageUrl: _additAnimal.imageUrl,
+                                  isAvailableToAdopt:
+                                      _additAnimal.isAvailableToAdopt,
+                                  species: _additAnimal.species,
+                                  gender: _additAnimal.gender,
+                                  animalStatus: value,
+                                  isFavorite: _additAnimal.isFavorite,
+                                );
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 160,
+                            height: 70,
+                            margin: EdgeInsets.only(
+                              top: 5,
+                              right: 8,
+                            ),
+                            child: DropdownButtonFormField<bool>(
+                              value: initIsAdoptable(),
+                              items: [true, false]
+                                  .map((label) => DropdownMenuItem(
+                                        child: Text(label.toString()),
+                                        value: label,
+                                      ))
+                                  .toList(),
+                              hint: Text('Avalible to Adopt'),
+                              onChanged: (value) {
+                                setState(
+                                  () {
+                                    _isAvalibleToAdopt = value;
+                                  },
+                                );
+                              },
+                              onSaved: (value) {
+                                _additAnimal = AnimalOBJ(
+                                  id: _additAnimal.id,
+                                  name: _additAnimal.name,
+                                  description: _additAnimal.description,
+                                  imageUrl: _additAnimal.imageUrl,
+                                  isAvailableToAdopt: value,
+                                  species: _additAnimal.species,
+                                  gender: _additAnimal.gender,
+                                  animalStatus: _additAnimal.animalStatus,
+                                  isFavorite: _additAnimal.isFavorite,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 100,
+                            margin: EdgeInsets.only(
+                              top: 5,
+                              right: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            child: _imageURLController.text.isEmpty
+                                ? Text('Enter a URL')
+                                : FittedBox(
+                                    child:
+                                        Image.network(_imageURLController.text),
+                                    fit: BoxFit.cover,
+                                    clipBehavior: Clip.hardEdge,
+                                  ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  labelText: 'Animal Picture URL'),
+                              keyboardType: TextInputType.url,
+                              textInputAction: TextInputAction.done,
+                              controller: _imageURLController,
+                              onEditingComplete: () {
+                                setState(() {});
+                              },
+                              onSaved: (value) {
+                                _additAnimal = AnimalOBJ(
+                                  id: _additAnimal.id,
+                                  name: _additAnimal.name,
+                                  description: _additAnimal.description,
+                                  imageUrl: value,
+                                  isAvailableToAdopt:
+                                      _additAnimal.isAvailableToAdopt,
+                                  species: _additAnimal.species,
+                                  gender: _additAnimal.gender,
+                                  animalStatus: _additAnimal.animalStatus,
+                                  isFavorite: _additAnimal.isFavorite,
+                                );
+                              },
+                              focusNode: _imageURLFocus,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -25,19 +25,22 @@ class ManagePets extends StatelessWidget {
           )
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: animalData.items.length,
-          itemBuilder: (_, i) => Column(
-            children: [
-              ManagedPetItem(
-                animalData.items[i].id,
-                animalData.items[i].name,
-                animalData.items[i].imageUrl,
-              ),
-              Divider(),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () => _refreshObjects(context),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: animalData.items.length,
+            itemBuilder: (_, i) => Column(
+              children: [
+                ManagedPetItem(
+                  animalData.items[i].id,
+                  animalData.items[i].name,
+                  animalData.items[i].imageUrl,
+                ),
+                Divider(),
+              ],
+            ),
           ),
         ),
       ),
@@ -48,5 +51,9 @@ class ManagePets extends StatelessWidget {
     //     title: Text('Your pending foster applications'),
     //   ),
     // );
+  }
+
+  Future<void> _refreshObjects(BuildContext context) async {
+    await Provider.of<Animals>(context, listen: false).fetchAndSetAnimals();
   }
 }

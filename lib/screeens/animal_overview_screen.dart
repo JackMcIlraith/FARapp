@@ -3,11 +3,13 @@ import 'package:flutter_complete_guide/screeens/adopt_list.dart';
 import 'package:flutter_complete_guide/screeens/pet_manager_screen.dart';
 import 'package:flutter_complete_guide/screeens/testscreen.dart';
 import 'package:flutter_complete_guide/screeens/vtr_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/animals_grid.dart';
 import '../screeens/adopt_list.dart';
 import '../screeens/foster_list.dart';
 import '../screeens/pet_manager_screen.dart';
+import '../providers/animal_provider.dart';
 
 enum FilterOptions { All, Favourites, Foster, Adopt, InFoster, PickUp }
 
@@ -18,6 +20,24 @@ class AnimalsOverviewScreen extends StatefulWidget {
 
 class _AnimalsOverviewScreenState extends State<AnimalsOverviewScreen> {
   int _showOnly = 0;
+  var isLoading = false;
+
+  @override
+  void initState() {
+    setState(() {
+      isLoading = true;
+    });
+    Provider.of<Animals>(context, listen: false).fetchAndSetAnimals().then((_) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+    super.initState();
+  }
+
+  Future<void> _refreshObjects(BuildContext context) async {
+    await Provider.of<Animals>(context, listen: false).fetchAndSetAnimals();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +100,14 @@ class _AnimalsOverviewScreenState extends State<AnimalsOverviewScreen> {
               ],
             ),
           ]),
-      body: AnimalsGrid(_showOnly),
+      body: RefreshIndicator(
+        onRefresh: () => _refreshObjects(context),
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : AnimalsGrid(_showOnly),
+      ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
