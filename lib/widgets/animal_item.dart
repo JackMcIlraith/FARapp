@@ -43,11 +43,11 @@ class AnimalItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
             ),
           ),
-          trailing: IconButton(
-            icon: Icon(animal.getIconFromName(animal.animalStatus)),
-            onPressed: () {},
-            color: Theme.of(context).accentColor,
-          ),
+          // trailing: IconButton(
+          //   icon: Icon(animal.getIconFromName(animal.animalStatus)),
+          //   onPressed: () {},
+          //   color: Theme.of(context).accentColor,
+          // ),
           backgroundColor: Colors.purple,
           title: Text(
             animal.name,

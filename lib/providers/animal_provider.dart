@@ -213,6 +213,17 @@ class Animals with ChangeNotifier {
   }
 
   void deleteAnimal(String id) {
+    print("trying to delete  " + id);
+    final url = Uri.parse(
+        'https://rescueapp-43a3d-default-rtdb.europe-west1.firebasedatabase.app/animals/$id.json');
+    final existingAnimalIndex = _items.indexWhere((animal) => animal.id == id);
+    var existingAnimal = _items[existingAnimalIndex];
+    _items.removeAt(existingAnimalIndex);
+    http.delete(url).then((_) {
+      existingAnimal = null;
+    }).catchError((_) {
+      _items.insert(existingAnimalIndex, existingAnimal);
+    });
     _items.removeWhere((animal) => animal.id == id);
     notifyListeners();
   }
