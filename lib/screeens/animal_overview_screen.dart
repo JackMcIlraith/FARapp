@@ -146,11 +146,11 @@ class _AnimalsOverviewScreenState extends State<AnimalsOverviewScreen> {
               },
             ),
             Divider(),
-            ListTile(
-              title: Text('TestScreen'),
-              onTap: () {
-                Navigator.of(context).pushNamed(TestScreen.routeName);
-              },
+            // ListTile(
+            //   title: Text('TestScreen'),
+            //   onTap: () {
+            //     Navigator.of(context).pushNamed(TestScreen.routeName);
+            //   },
             ),
           ],
         ),
