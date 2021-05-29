@@ -28,10 +28,6 @@ class Foster with ChangeNotifier {
     return {..._animals};
   }
 
-  int get numberOfApplications {
-    return _animals.length;
-  }
-
   //add to intrested list:
   void addToInterested(String animalID, String name, String imageURL) {
     if (_animals.containsKey(animalID)) {
@@ -47,6 +43,10 @@ class Foster with ChangeNotifier {
         ),
       );
     }
+  }
+
+  int get numberOfApplications {
+    return _animals.length;
   }
 
   void removeApplication(String id) {

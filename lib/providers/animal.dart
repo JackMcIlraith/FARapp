@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import '../models/vtr.dart';
 
 enum AnimalStatus {
-  Foster_Needed,
-  Homed,
-  Fostered,
-  PickUp,
+  Foster_Needed, //for animals that are in the rescue, but require a foster home.
+  Homed, //for animals that have been sucessfuly adopted, but are still on the app.
+  Fostered, // for animals that have a foster home, but are not adopted yet.
+  PickUp, //for animals that are still 'at large' and will be sent directly to a fosterer.
 }
 enum AnimalGender {
   Male,

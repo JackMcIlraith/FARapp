@@ -14,7 +14,6 @@ class AnimalItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final animal = Provider.of<AnimalOBJ>(context, listen: false);
-    print('testo build');
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
