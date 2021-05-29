@@ -151,7 +151,7 @@ class _AnimalsOverviewScreenState extends State<AnimalsOverviewScreen> {
             //   onTap: () {
             //     Navigator.of(context).pushNamed(TestScreen.routeName);
             //   },
-            ),
+            //),
           ],
         ),
       ),
